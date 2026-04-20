@@ -1,0 +1,1978 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Kim Lussier-Nivischiuk — CPA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TWEAKABLE DEFAULTS ============ */
+</style>
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "palette": "sage",
+  "density": "comfortable",
+  "portraitStyle": "duotone",
+  "displayFont": "fraunces",
+  "showFloatingNav": true
+}/*EDITMODE-END*/;
+</script>
+<style>
+:root {
+  /* Sage (default) */
+  --bg: #f4f1ea;
+  --bg-alt: #ebe6db;
+  --surface: #fbf9f4;
+  --ink: #2b2a26;
+  --ink-soft: #5a584f;
+  --ink-mute: #8a8778;
+  --rule: #d9d3c3;
+  --accent: #9fb89a;        /* sage */
+  --accent-deep: #5e7a5a;
+  --accent-soft: #d9e3d3;
+  --accent-glow: #c4d5bd;
+  --rose: #e9c9c1;
+  --butter: #eadcb3;
+  --sky: #c7d4db;
+  --display: 'Fraunces', 'Instrument Serif', Georgia, serif;
+  --body: 'Geist', -apple-system, system-ui, sans-serif;
+  --mono: 'Geist Mono', 'SF Mono', monospace;
+}
+
+[data-palette="rose"] {
+  --bg: #f5eeea;
+  --bg-alt: #ede2dc;
+  --surface: #fbf6f3;
+  --accent: #d9a49a;
+  --accent-deep: #9c5a4e;
+  --accent-soft: #edd4cc;
+  --accent-glow: #e6c4ba;
+}
+
+[data-palette="butter"] {
+  --bg: #f5efe1;
+  --bg-alt: #ebe1cc;
+  --surface: #fbf6e8;
+  --accent: #dcc07b;
+  --accent-deep: #8a6f33;
+  --accent-soft: #ead7a4;
+  --accent-glow: #e2cd90;
+}
+
+[data-palette="lavender"] {
+  --bg: #efebf2;
+  --bg-alt: #e2dde7;
+  --surface: #f7f4f9;
+  --accent: #b5a5c6;
+  --accent-deep: #5e4a73;
+  --accent-soft: #d6cde0;
+  --accent-glow: #c9bdd6;
+}
+
+[data-palette="sky"] {
+  --bg: #eaf0f2;
+  --bg-alt: #dbe4e8;
+  --surface: #f4f8f9;
+  --accent: #9ab8c2;
+  --accent-deep: #456773;
+  --accent-soft: #c7d9df;
+  --accent-glow: #b2c9d1;
+}
+
+[data-display="instrument"] { --display: 'Instrument Serif', Georgia, serif; }
+[data-display="fraunces"]   { --display: 'Fraunces', Georgia, serif; }
+
+[data-density="compact"] {
+  --section-pad: 88px;
+  --card-pad: 22px;
+}
+[data-density="comfortable"] {
+  --section-pad: 140px;
+  --card-pad: 32px;
+}
+[data-density="spacious"] {
+  --section-pad: 200px;
+  --card-pad: 44px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+::selection { background: var(--accent-soft); color: var(--accent-deep); }
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 56px;
+}
+
+/* ============ TOP BAR ============ */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: color-mix(in oklab, var(--bg) 80%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--rule) 60%, transparent);
+}
+.topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 56px;
+  max-width: 1280px; margin: 0 auto;
+}
+.mark {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  font-style: italic;
+}
+.mark span { font-style: normal; color: var(--accent-deep); }
+.topnav {
+  display: flex; gap: 36px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.topnav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  position: relative;
+  padding: 4px 0;
+  transition: color .2s;
+}
+.topnav a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 1px;
+  background: var(--accent-deep);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s ease;
+}
+.topnav a:hover { color: var(--ink); }
+.topnav a:hover::after { transform: scaleX(1); }
+.topnav a.active { color: var(--accent-deep); }
+.topnav a.active::after { transform: scaleX(1); }
+
+.topnav a.nav-cta {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  padding: 6px 14px;
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+  margin-left: 4px;
+  transition: background .25s, color .25s, transform .2s;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.topnav a.nav-cta::after { display: none; }
+.topnav a.nav-cta:hover {
+  background: var(--accent-deep);
+  color: var(--surface);
+  transform: translateY(-1px);
+}
+.topnav a.nav-cta .nav-cta-arrow {
+  transition: transform .25s ease;
+  display: inline-block;
+}
+.topnav a.nav-cta:hover .nav-cta-arrow { transform: translateX(3px); }
+.topnav a.nav-cta.active {
+  background: var(--accent-deep);
+  color: var(--surface);
+}
+
+.contact-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 13px;
+  text-decoration: none;
+  transition: transform .2s, background .2s;
+}
+.contact-pill:hover { transform: translateY(-1px); background: var(--accent-deep); }
+.contact-pill .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-glow);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-glow) 30%, transparent);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .4; }
+}
+
+/* ============ HERO ============ */
+.hero {
+  padding: 80px 0 120px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+.hero-meta {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 28px;
+}
+.hero-meta .hairline {
+  flex: 0 0 48px; height: 1px; background: var(--ink-mute);
+}
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(56px, 8.2vw, 128px);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+}
+.hero h1 .it {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent-deep);
+}
+.hero h1 .amp {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent);
+}
+.hero-sub {
+  margin-top: 32px;
+  font-size: 20px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  max-width: 520px;
+  text-wrap: pretty;
+}
+.hero-sub strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+.hero-chips {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 36px;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  font-size: 13px;
+  transition: all .2s;
+}
+.chip:hover { border-color: var(--accent); color: var(--ink); }
+.chip-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Portrait */
+.portrait-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  max-width: 460px;
+  margin-left: auto;
+}
+.portrait-bg {
+  position: absolute; inset: 0;
+  border-radius: 260px 260px 24px 24px;
+  background: linear-gradient(170deg, var(--accent-soft) 0%, var(--accent-glow) 100%);
+  transform: rotate(-2deg) scale(1.02);
+  transition: transform .5s ease;
+}
+.portrait-wrap:hover .portrait-bg { transform: rotate(-3deg) scale(1.04); }
+
+.portrait {
+  position: absolute; inset: 0;
+  border-radius: 260px 260px 24px 24px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px -40px rgba(50, 50, 30, 0.25);
+}
+.portrait img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+  transition: transform .6s ease, filter .4s ease;
+}
+.portrait-wrap:hover .portrait img { transform: scale(1.03); }
+
+[data-portrait="duotone"] .portrait img {
+  filter: grayscale(0.15) contrast(1.02);
+  mix-blend-mode: multiply;
+}
+[data-portrait="duotone"] .portrait {
+  background: var(--accent-soft);
+}
+[data-portrait="color"] .portrait img { filter: none; }
+[data-portrait="bw"] .portrait img { filter: grayscale(1) contrast(1.05); }
+
+.portrait-tag {
+  position: absolute;
+  bottom: -24px; left: -24px;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 12px 30px -12px rgba(0,0,0,0.3);
+}
+.portrait-tag::before {
+  content: '';
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-glow);
+}
+
+.portrait-stat {
+  position: absolute;
+  top: 40px; right: -40px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 16px 20px;
+  border-radius: 14px;
+  min-width: 140px;
+  transform: rotate(3deg);
+  box-shadow: 0 10px 30px -15px rgba(0,0,0,0.15);
+}
+.portrait-stat .label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 4px;
+}
+.portrait-stat .val {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--ink);
+}
+.portrait-stat .val em { color: var(--accent-deep); font-style: italic; }
+
+/* Hero floating marquee */
+.hero-marquee {
+  position: relative;
+  margin-top: 100px;
+  padding: 22px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  overflow: hidden;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.marquee-track {
+  display: inline-flex;
+  gap: 56px;
+  animation: scroll-x 40s linear infinite;
+  padding-right: 56px;
+}
+.marquee-track span::before {
+  content: '✦';
+  margin-right: 56px;
+  color: var(--accent);
+  font-style: normal;
+}
+@keyframes scroll-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ============ SECTION BASE ============ */
+section {
+  padding: var(--section-pad, 140px) 0;
+  position: relative;
+}
+.section-header {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 48px;
+  align-items: baseline;
+  margin-bottom: 72px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+.section-number {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+}
+.section-title {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+.section-title em {
+  font-style: italic;
+  color: var(--accent-deep);
+  font-weight: 300;
+}
+.section-lede {
+  margin-top: 16px;
+  font-size: 17px;
+  color: var(--ink-soft);
+  max-width: 620px;
+  text-wrap: pretty;
+}
+
+/* ============ PROFIL ============ */
+.profil {
+  background: var(--bg-alt);
+}
+.profil-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+.profil-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  padding: var(--card-pad);
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s;
+  position: relative;
+  overflow: hidden;
+}
+.profil-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -20px rgba(40,40,20,0.1);
+  border-color: color-mix(in oklab, var(--accent) 60%, var(--rule));
+}
+.profil-card .idx {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-bottom: 14px;
+  display: block;
+}
+.profil-card h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.profil-card h3 em { color: var(--accent-deep); }
+.profil-card p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+.profil-card .decoration {
+  position: absolute;
+  right: -30px; bottom: -30px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ============ EXPERIENCE TIMELINE ============ */
+.experience {
+  background: var(--bg);
+}
+.timeline {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 0;
+  position: relative;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 180px;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--rule);
+}
+.xp-row {
+  display: contents;
+}
+.xp-date {
+  padding: 32px 32px 32px 0;
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  position: relative;
+  line-height: 1.5;
+}
+.xp-date strong {
+  font-weight: 500;
+  color: var(--accent-deep);
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+.xp-body {
+  padding: 32px 0 32px 40px;
+  position: relative;
+  border-top: 1px solid var(--rule);
+}
+.xp-row:first-child .xp-body,
+.xp-row:first-child .xp-date { border-top: 0; }
+.xp-row:first-child .xp-body { padding-top: 0; }
+.xp-row:first-child .xp-date { padding-top: 0; }
+
+.xp-body::before {
+  content: '';
+  position: absolute;
+  left: -5px; top: 42px;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  transition: all .3s;
+}
+.xp-row:first-child .xp-body::before { top: 10px; }
+.xp-row.current .xp-body::before {
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 30%, transparent);
+}
+
+.xp-company {
+  display: flex; align-items: baseline; gap: 12px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+.xp-company h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.xp-company .loc {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.xp-company .current-tag {
+  background: var(--accent-deep);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.xp-role {
+  font-size: 15px;
+  color: var(--accent-deep);
+  font-weight: 500;
+  margin-bottom: 18px;
+  font-style: italic;
+  font-family: var(--display);
+  font-size: 18px;
+}
+.xp-role-group + .xp-role-group { margin-top: 20px; }
+.xp-role-group .xp-role-dates {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+.xp-bullets {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.xp-bullets li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+.xp-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 10px;
+  width: 10px; height: 1px;
+  background: var(--accent);
+}
+
+.xp-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-top: 18px;
+}
+.xp-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: var(--accent-soft);
+}
+
+/* ============ FORMATIONS ============ */
+.formations {
+  background: var(--bg-alt);
+}
+.formations-list {
+  display: grid;
+  gap: 0;
+}
+.formation-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 220px;
+  gap: 32px;
+  padding: 32px 0;
+  border-top: 1px solid var(--rule);
+  align-items: baseline;
+  transition: background .3s;
+  position: relative;
+}
+.formation-row:hover {
+  background: color-mix(in oklab, var(--accent-soft) 40%, transparent);
+}
+.formation-row:last-child { border-bottom: 1px solid var(--rule); }
+.formation-year {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 40px;
+  color: var(--accent-deep);
+  line-height: 1;
+}
+.formation-body h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.formation-body p {
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.formation-kind {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  text-align: right;
+}
+
+/* ============ SKILLS + ACCOMPLISSEMENTS ============ */
+.extras {
+  background: var(--bg);
+}
+.extras-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+}
+.extras-block {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 22px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+.extras-block h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.extras-block h3 em { color: var(--accent-deep); font-style: italic; }
+
+.accomplishments {
+  display: grid;
+  gap: 20px;
+}
+.accomp {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
+  padding: 20px 0;
+  border-top: 1px solid var(--rule);
+}
+.accomp:first-child { border-top: 0; padding-top: 0; }
+.accomp-icon {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  color: var(--accent-deep);
+}
+.accomp h4 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.accomp p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.accomp .meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-top: 6px;
+  display: block;
+}
+
+.skill-group { margin-bottom: 26px; }
+.skill-group:last-child { margin-bottom: 0; }
+.skill-group-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.skill-group-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--rule);
+}
+.skill-pills {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.skill-pill {
+  padding: 8px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--bg);
+  transition: all .2s;
+}
+.skill-pill:hover {
+  border-color: var(--accent-deep);
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+}
+
+.lang-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-top: 1px solid var(--rule);
+}
+.lang-row:first-of-type { border-top: 0; }
+.lang-name {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 400;
+}
+.lang-level {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.lang-dots { display: inline-flex; gap: 4px; }
+.lang-dots span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--rule);
+}
+.lang-dots span.on { background: var(--accent-deep); }
+
+/* ============ CONTACT CTA ============ */
+.contact {
+  background: var(--ink);
+  color: var(--bg);
+  padding: var(--section-pad, 140px) 0;
+  position: relative;
+  overflow: hidden;
+}
+.contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px circle at 80% 20%, color-mix(in oklab, var(--accent) 20%, transparent), transparent 70%),
+    radial-gradient(500px circle at 10% 90%, color-mix(in oklab, var(--accent-soft) 15%, transparent), transparent 70%);
+  pointer-events: none;
+}
+.contact-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: end;
+}
+.contact h2 {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(48px, 7vw, 110px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+.contact h2 em {
+  font-style: italic;
+  color: var(--accent-glow);
+}
+.contact-links {
+  display: grid;
+  gap: 18px;
+}
+.contact-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0;
+  border-top: 1px solid color-mix(in oklab, var(--bg) 15%, transparent);
+  color: var(--bg);
+  text-decoration: none;
+  transition: padding .3s ease, color .3s;
+  position: relative;
+}
+.contact-link-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.contact-link-body > svg.contact-icon {
+  display: none;
+}
+.contact-link-val {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.contact-link-val .contact-icon {
+  color: var(--accent-glow);
+  flex: 0 0 auto;
+}
+.contact-icon {
+  color: var(--accent-glow);
+  flex: 0 0 auto;
+}
+.contact-link:last-child { border-bottom: 1px solid color-mix(in oklab, var(--bg) 15%, transparent); }
+.contact-static {
+  padding: 20px 0;
+  border-top: 1px solid color-mix(in oklab, var(--bg) 15%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--bg) 15%, transparent);
+  color: var(--bg);
+}
+.contact-static .kind {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-glow);
+  margin-bottom: 6px;
+}
+.contact-static-val {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--bg);
+}
+.contact-static-val svg { color: var(--accent-glow); }
+.contact-link .kind {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-glow);
+}
+.contact-link .arrow {
+  font-family: var(--display);
+  font-style: italic;
+  transition: transform .3s ease;
+  color: var(--accent-glow);
+}
+.contact-link:hover { padding-left: 12px; }
+.contact-link:hover .arrow { transform: translateX(8px); }
+
+.footer {
+  padding: 32px 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--bg) 60%, transparent);
+  position: relative;
+}
+
+/* ============ FLOATING DOTS NAV ============ */
+.dots-nav {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dots-nav.hidden { display: none; }
+.dots-nav a {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--rule);
+  display: block;
+  position: relative;
+  transition: all .3s;
+}
+.dots-nav a::after {
+  content: attr(data-label);
+  position: absolute;
+  right: calc(100% + 14px);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: var(--surface);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--rule);
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity .2s;
+}
+.dots-nav a:hover::after { opacity: 1; }
+.dots-nav a.active {
+  background: var(--accent-deep);
+  transform: scale(1.3);
+}
+
+/* ============ TWEAKS PANEL ============ */
+.tweaks {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 18px;
+  width: 280px;
+  box-shadow: 0 20px 60px -20px rgba(0,0,0,0.25);
+  display: none;
+  font-size: 13px;
+}
+.tweaks.open { display: block; }
+.tweaks h4 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 18px;
+  margin-bottom: 14px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.tweaks .close {
+  background: none; border: 0;
+  font-size: 18px; cursor: pointer;
+  color: var(--ink-mute);
+}
+.tweak-row {
+  margin-bottom: 14px;
+}
+.tweak-row label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  display: block;
+  margin-bottom: 6px;
+}
+.tweak-swatches {
+  display: flex; gap: 8px;
+}
+.tweak-swatch {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform .2s;
+  background-clip: padding-box;
+}
+.tweak-swatch:hover { transform: scale(1.1); }
+.tweak-swatch.active { border-color: var(--ink); }
+.tweak-btns {
+  display: flex; gap: 4px;
+}
+.tweak-btn {
+  flex: 1;
+  padding: 7px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--bg);
+  font-size: 11px;
+  cursor: pointer;
+  font-family: var(--body);
+  color: var(--ink-soft);
+  transition: all .15s;
+}
+.tweak-btn.active {
+  background: var(--accent-deep);
+  color: var(--bg);
+  border-color: var(--accent-deep);
+}
+
+/* ============ PERSONNEL / HOBBIES ============ */
+.personnel {
+  background: var(--bg-alt);
+}
+.hobbies-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+.hobby {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding: 28px 8px;
+  border-bottom: 1px solid var(--rule);
+  transition: padding .3s ease, background .3s ease;
+  position: relative;
+}
+.hobby:nth-child(odd) {
+  border-right: 1px solid var(--rule);
+  padding-right: 32px;
+}
+.hobby:nth-child(even) {
+  padding-left: 32px;
+}
+.hobby:hover {
+  background: color-mix(in oklab, var(--accent-soft) 50%, transparent);
+  padding-left: 20px;
+}
+.hobby:nth-child(even):hover {
+  padding-left: 44px;
+}
+.hobby-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  flex: 0 0 32px;
+}
+.hobby-name {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+@media (max-width: 900px) {
+  .hobbies-grid { grid-template-columns: 1fr; }
+  .hobby:nth-child(odd) { border-right: 0; padding-right: 8px; }
+  .hobby:nth-child(even) { padding-left: 8px; }
+  .hobby-name { font-size: 18px; }
+}
+
+/* ============ REVEAL ANIMATIONS ============ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .8s cubic-bezier(.16,.8,.3,1), transform .8s cubic-bezier(.16,.8,.3,1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s cubic-bezier(.16,.8,.3,1), transform .6s cubic-bezier(.16,.8,.3,1);
+}
+.reveal-stagger.in > * {
+  opacity: 1;
+  transform: none;
+}
+.reveal-stagger.in > *:nth-child(1) { transition-delay: .00s; }
+.reveal-stagger.in > *:nth-child(2) { transition-delay: .08s; }
+.reveal-stagger.in > *:nth-child(3) { transition-delay: .16s; }
+.reveal-stagger.in > *:nth-child(4) { transition-delay: .24s; }
+.reveal-stagger.in > *:nth-child(5) { transition-delay: .32s; }
+.reveal-stagger.in > *:nth-child(6) { transition-delay: .40s; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  body { font-size: 16px; }
+  .container, .topbar-inner { padding: 0 20px; }
+  .topbar-inner { padding: 14px 20px; gap: 12px; }
+  .mark { font-size: 16px; }
+  .mark em { display: none; } /* hide CPA badge beside name on small screens */
+  .contact-pill { padding: 7px 12px; font-size: 12px; white-space: nowrap; }
+
+  /* HERO */
+  .hero { padding: 48px 0 72px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero h1 { font-size: clamp(48px, 12vw, 72px); }
+  .hero-sub { font-size: 17px; margin-top: 24px; }
+  .hero-chips { margin-top: 24px; }
+  .portrait-wrap { max-width: 300px; margin: 0 auto; }
+  .portrait-stat { right: -12px; top: 20px; padding: 12px 14px; min-width: 110px; transform: rotate(3deg) scale(.9); }
+  .portrait-stat .val { font-size: 22px; }
+  .portrait-tag { left: -10px; bottom: -16px; padding: 10px 14px; font-size: 10px; }
+  .hero-marquee { margin-top: 56px; font-size: 16px; padding: 16px 0; }
+
+  /* SECTIONS */
+  section { padding: 72px 0; }
+  .section-header { grid-template-columns: 1fr; gap: 16px; margin-bottom: 40px; padding-bottom: 20px; }
+  .section-title { font-size: clamp(32px, 7vw, 48px); }
+  .section-lede { font-size: 15px; }
+  .section-number { font-size: 11px; }
+
+  /* PROFIL */
+  .profil-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+  .profil-card { padding: 22px; }
+  .profil-card h3 { font-size: 20px; }
+
+  /* TIMELINE */
+  .timeline { grid-template-columns: 1fr; }
+  .timeline::before { left: 0; }
+  .xp-row { display: block; margin-bottom: 12px; }
+  .xp-date {
+    padding: 24px 0 8px 24px;
+    text-align: left;
+    font-size: 11px;
+    position: relative;
+    border-top: 1px solid var(--rule);
+  }
+  .xp-row:first-child .xp-date { border-top: 0; padding-top: 0; }
+  .xp-body { padding: 4px 0 24px 24px; border-top: 0; }
+  .xp-body::before { display: none; }
+  .xp-date::before {
+    content: '';
+    position: absolute;
+    left: -5px; top: 30px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+  }
+  .xp-row:first-child .xp-date::before { top: 6px; }
+  .xp-row.current .xp-date::before {
+    background: var(--accent-deep);
+    border-color: var(--accent-deep);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 30%, transparent);
+  }
+  .xp-company { gap: 8px; }
+  .xp-company h3 { font-size: 24px; }
+  .xp-role { font-size: 16px; margin-bottom: 14px; }
+  .xp-bullets li { font-size: 14px; }
+
+  /* FORMATIONS */
+  .formation-row { grid-template-columns: 1fr; gap: 6px; padding: 24px 0; }
+  .formation-year { font-size: 32px; }
+  .formation-body h3 { font-size: 20px; }
+  .formation-kind { text-align: left; font-size: 10px; }
+
+  /* EXTRAS */
+  .extras-grid { grid-template-columns: 1fr !important; gap: 24px; max-width: none !important; }
+  .extras-block { padding: 24px; border-radius: 16px; }
+  .extras-block h3 { font-size: 24px; margin-bottom: 20px; }
+  .lang-name { font-size: 18px; }
+  .contact-inner { grid-template-columns: 1fr; gap: 28px; }
+  .contact h2 { font-size: clamp(40px, 9vw, 64px); }
+  .contact-link { font-size: 16px; padding: 16px 0; }
+  .contact-link-body { gap: 12px; }
+  .contact-static-val { font-size: 16px; }
+
+  /* NAV */
+  .topnav { display: none; }
+  .dots-nav { display: none !important; }
+}
+
+@media (max-width: 480px) {
+  .container, .topbar-inner { padding: 0 16px; }
+  .topbar-inner { padding: 12px 16px; }
+  section { padding: 56px 0; }
+  .hero { padding: 32px 0 56px; }
+  .profil-card { padding: 20px; }
+  .extras-block { padding: 20px; }
+  .portrait-stat { right: -8px; padding: 10px 12px; min-width: 96px; }
+  .portrait-stat .val { font-size: 18px; }
+}
+
+@media print {
+  @page { size: A4; margin: 14mm; }
+  .topbar, .dots-nav, .tweaks, .contact-pill, .hero-marquee, .pdf-btn { display: none !important; }
+  html, body { background: white !important; color: #111 !important; }
+  body { font-size: 11pt; }
+  section { padding: 20px 0 !important; break-inside: avoid; page-break-inside: avoid; }
+  .hero { padding: 0 0 20px !important; }
+  .hero h1 { font-size: 32pt !important; }
+  .hero-sub { font-size: 11pt !important; }
+  .hero-grid { grid-template-columns: 2fr 1fr !important; gap: 24px !important; }
+  .portrait-wrap { max-width: 180px !important; }
+  .portrait-bg { display: none !important; }
+  .portrait-stat, .portrait-tag { display: none !important; }
+  .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
+  .section-title { font-size: 22pt !important; }
+  .section-header { grid-template-columns: 1fr 2fr !important; margin-bottom: 16px !important; padding-bottom: 8px !important; }
+  .xp-company h3 { font-size: 14pt !important; }
+  .xp-role { font-size: 11pt !important; }
+  .xp-bullets li { font-size: 10pt !important; }
+  .formation-year { font-size: 16pt !important; }
+  .formation-body h3 { font-size: 12pt !important; }
+  .contact { background: white !important; color: #111 !important; }
+  .contact h2 { font-size: 22pt !important; color: #111 !important; }
+  .contact-link, .contact-static { color: #111 !important; border-color: #ccc !important; }
+  .contact-link-val, .contact-static-val { color: #111 !important; }
+  .contact-icon, .contact-static-val svg { color: #555 !important; }
+  .kind { color: #666 !important; }
+  .arrow { display: none !important; }
+  .footer { color: #666 !important; }
+  /* Prevent breaks inside cards */
+  .xp-row, .formation-row, .profil-card, .hobby { break-inside: avoid; page-break-inside: avoid; }
+  a { color: inherit !important; text-decoration: none !important; }
+}
+
+/* ============ PDF download button ============ */
+.pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .2s;
+  text-decoration: none;
+  margin-right: 8px;
+}
+.pdf-btn:hover {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.pdf-btn svg { flex: 0 0 auto; }
+@media (max-width: 900px) {
+  .pdf-btn span.pdf-label { display: none; }
+  .pdf-btn { padding: 8px; }
+}
+
+</style>
+</head>
+<body data-palette="sage" data-display="fraunces" data-density="comfortable" data-portrait="duotone">
+
+<!-- ===== TOPBAR ===== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="mark">Kim <span>Lussier-Nivischiuk</span> <em style="font-style:normal;color:var(--ink-mute);font-family:var(--mono);font-size:12px;letter-spacing:0.12em;margin-left:8px;text-transform:uppercase;vertical-align:2px;">CPA</em></div>
+    <nav class="topnav">
+      <a href="#profil" data-link="profil">Profil</a>
+      <a href="#experience" data-link="experience">Expérience</a>
+      <a href="#formations" data-link="formations">Formations</a>
+      <a href="#extras" data-link="extras">Compétences</a>
+      <a href="#personnel" data-link="personnel">Personnel</a>
+      <a href="#contact" data-link="contact" class="nav-cta">Contact <span class="nav-cta-arrow">→</span></a>
+    </nav>
+    <a class="contact-pill" href="mailto:kim.lussier.nivis@gmail.com?subject=Je%20suis%20int%C3%A9ress%C3%A9%20par%20votre%20candidature"><span class="dot"></span>Disponible</a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top" data-screen-label="01 Hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <h1 class="reveal">
+          Kim<br/>
+          <span class="it">Lussier-Nivischiuk</span>, CPA
+        </h1>
+        <p class="hero-sub reveal">
+          <strong>Directrice des finances</strong> avec plus de quatorze ans d'expérience en comptabilité, audit et contrôle de gestion, et titulaire du titre CPA depuis 2014.
+        </p>
+        <div class="hero-chips reveal-stagger reveal">
+          <span class="chip"><span class="chip-dot"></span>Information financière</span>
+          <span class="chip"><span class="chip-dot"></span>Budget &amp; prévisions</span>
+          <span class="chip"><span class="chip-dot"></span>Contrôles internes</span>
+          <span class="chip"><span class="chip-dot"></span>Leadership d'équipe</span>
+        </div>
+      </div>
+      <div class="portrait-wrap reveal">
+        <div class="portrait-bg"></div>
+        <div class="portrait">
+          <img src="assets/kim.jpg" alt="Portrait de Kim Lussier-Nivischiuk"/>
+        </div>
+        <div class="portrait-stat">
+          <div class="label">Expérience</div>
+          <div class="val">14<em>+</em> ans</div>
+        </div>
+        <div class="portrait-tag">CPA</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-marquee">
+    <div class="marquee-track">
+      <span>Rigueur analytique</span>
+      <span>Leadership financier</span>
+      <span>Optimisation des processus</span>
+      <span>Partenaire d'affaires</span>
+      <span>Amélioration continue</span>
+      <span>Rigueur analytique</span>
+      <span>Leadership financier</span>
+      <span>Optimisation des processus</span>
+      <span>Partenaire d'affaires</span>
+      <span>Amélioration continue</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROFIL ===== -->
+<section class="profil" id="profil" data-screen-label="02 Profil">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-number">01 — Profil</div>
+      <div>
+        <h2 class="section-title">Une CPA <em>rigoureuse</em>, orientée performance.</h2>
+        <p class="section-lede">
+          Reconnue pour sa rigueur analytique et son leadership dans la gestion des fonctions financières,
+          partenaire d'affaires au service de la prise de décision.
+        </p>
+      </div>
+    </div>
+
+    <div class="profil-grid reveal-stagger reveal">
+      <div class="profil-card">
+        <span class="idx">01</span>
+        <h3>Expertise <em>diversifiée</em></h3>
+        <p>CPA avec une expérience en finance, comptabilité et contrôle de gestion à travers plusieurs industries.</p>
+        <div class="decoration"></div>
+      </div>
+      <div class="profil-card">
+        <span class="idx">02</span>
+        <h3>Rigueur &amp; <em>leadership</em></h3>
+        <p>Capacité d'analyse reconnue et leadership dans la gestion complète des fonctions financières d'une entreprise.</p>
+        <div class="decoration"></div>
+      </div>
+      <div class="profil-card">
+        <span class="idx">03</span>
+        <h3>Vision <em>stratégique</em></h3>
+        <p>Information financière, planification budgétaire, prévisions et optimisation continue des processus.</p>
+        <div class="decoration"></div>
+      </div>
+      <div class="profil-card">
+        <span class="idx">04</span>
+        <h3>Partenaire <em>d'affaires</em></h3>
+        <p>Orientée vers la performance et l'efficacité, elle évolue dans des environnements changeants et soutient la direction.</p>
+        <div class="decoration"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE ===== -->
+<section class="experience" id="experience" data-screen-label="03 Expérience">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-number">02 — Expérience</div>
+      <div>
+        <h2 class="section-title">Parcours <em>professionnel</em>.</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+
+      <div class="xp-row current">
+        <div class="xp-date"><strong>Mai 2025 —</strong>Aujourd'hui</div>
+        <div class="xp-body">
+          <div class="xp-company">
+            <h3>Globo</h3>
+            <span class="loc">Montréal</span>
+            <span class="current-tag">Poste actuel</span>
+          </div>
+
+          <div class="xp-role-group">
+            <span class="xp-role-dates">Février 2026 → Aujourd'hui</span>
+            <div class="xp-role">Directrice des finances</div>
+            <ul class="xp-bullets">
+              <li>Supervision des activités financières et comptables de l'entreprise</li>
+              <li>Production et analyse de l'information financière pour la direction</li>
+              <li>Suivi de la trésorerie, des budgets et des prévisions</li>
+              <li>Amélioration des processus et des contrôles internes</li>
+            </ul>
+          </div>
+
+          <div class="xp-role-group">
+            <span class="xp-role-dates">Mai 2025 → Janvier 2026</span>
+            <div class="xp-role">Contrôleure</div>
+            <ul class="xp-bullets">
+              <li>Supervision du cycle comptable et des clôtures périodiques</li>
+              <li>Préparation des états financiers mensuels et analyse des résultats</li>
+              <li>Révision des conciliations, déclarations et suivis comptables</li>
+              <li>Soutien à l'optimisation des processus financiers</li>
+            </ul>
+          </div>
+
+          <div class="xp-tags">
+            <span class="xp-tag">Direction financière</span>
+            <span class="xp-tag">États financiers</span>
+            <span class="xp-tag">Trésorerie</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="xp-row">
+        <div class="xp-date"><strong>Avr. 2024 —</strong>Avr. 2025</div>
+        <div class="xp-body">
+          <div class="xp-company">
+            <h3>MCE Conseils</h3>
+            <span class="loc">Montréal</span>
+          </div>
+          <div class="xp-role">Conseillère en administration et finance</div>
+          <ul class="xp-bullets">
+            <li>Réalisation d'analyses financières et organisationnelles</li>
+            <li>Préparation de prévisions financières et de demandes de financement</li>
+            <li>Contribution à des mandats de plan d'affaires et d'études de faisabilité</li>
+            <li>Rédaction de rapports et présentation d'analyses aux clients</li>
+            <li>Accompagnement des entreprises dans leurs enjeux financiers et stratégiques</li>
+          </ul>
+          <div class="xp-tags">
+            <span class="xp-tag">Conseil</span>
+            <span class="xp-tag">Plans d'affaires</span>
+            <span class="xp-tag">Financement</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="xp-row">
+        <div class="xp-date"><strong>Jan. 2021 —</strong>Avr. 2024</div>
+        <div class="xp-body">
+          <div class="xp-company">
+            <h3>Chemotec (PM) Inc.</h3>
+            <span class="loc">Montréal</span>
+          </div>
+          <div class="xp-role">Contrôleure</div>
+          <ul class="xp-bullets">
+            <li>Gestion de tout le cycle comptable : clients, fournisseurs, paie, grand livre et états financiers</li>
+            <li>Préparation et supervision des procédures de fin de mois</li>
+            <li>Élaboration et analyse des rapports financiers</li>
+            <li>Gestion des liquidités et du financement</li>
+            <li>Élaboration et suivi des budgets et projections financières</li>
+            <li>Responsable des contrôles internes et des ressources humaines</li>
+            <li>Recrutement, formation et gestion du personnel comptable</li>
+          </ul>
+          <div class="xp-tags">
+            <span class="xp-tag">Cycle complet</span>
+            <span class="xp-tag">RH &amp; paie</span>
+            <span class="xp-tag">Contrôles internes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="xp-row">
+        <div class="xp-date"><strong>Juil. 2017 —</strong>Jan. 2021</div>
+        <div class="xp-body">
+          <div class="xp-company">
+            <h3>KLN Capital</h3>
+            <span class="loc">Sous-traitance · Montréal</span>
+          </div>
+          <div class="xp-role">Contrôleure sur demande &amp; associée (Comptabilité Overtake Inc.)</div>
+          <ul class="xp-bullets">
+            <li>Mandats pour plusieurs PME : M&amp;H Polystudios, Unik, Sparkling, Soufflé Marketing</li>
+            <li>Tenue de livres, conciliations bancaires et cycles comptables complets</li>
+            <li>Gestion des obligations gouvernementales et déclarations de taxes</li>
+            <li>Gestion de la trésorerie, élaboration et suivi de budgets</li>
+            <li>Préparation des états financiers mensuels, trimestriels et annuels</li>
+            <li>Avis au lecteur pour de nombreux clients</li>
+          </ul>
+          <div class="xp-tags">
+            <span class="xp-tag">PME</span>
+            <span class="xp-tag">Services-conseils</span>
+            <span class="xp-tag">Multi-industries</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="xp-row">
+        <div class="xp-date"><strong>Sept. 2015 —</strong>Fév. 2017</div>
+        <div class="xp-body">
+          <div class="xp-company">
+            <h3>CIBC — Groupe Entreprises</h3>
+            <span class="loc">Montréal</span>
+          </div>
+          <div class="xp-role">Associée</div>
+          <ul class="xp-bullets">
+            <li>Développement proactif d'un réseau de clients potentiels avec les directeurs de compte</li>
+            <li>Préparation des demandes de crédit : évaluation des risques, structure et diligence raisonnable</li>
+            <li>Élaboration de solutions créatives et concurrentielles pour les clients</li>
+            <li>Renouvellement des contrats de crédit en temps opportun</li>
+          </ul>
+          <div class="xp-tags">
+            <span class="xp-tag">Crédit commercial</span>
+            <span class="xp-tag">Analyse de risque</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="xp-row">
+        <div class="xp-date"><strong>Jan. 2012 —</strong>Juil. 2015</div>
+        <div class="xp-body">
+          <div class="xp-company">
+            <h3>Richter</h3>
+            <span class="loc">Montréal</span>
+          </div>
+          <div class="xp-role">Première auditrice</div>
+          <ul class="xp-bullets">
+            <li>Planification, exécution et supervision de missions d'audit, d'examen et d'avis au lecteur</li>
+            <li>Clients des secteurs manufacturier, immobilier, hautes technologies, assurances et distribution</li>
+            <li>Supervision d'équipes d'employés juniors chez le client ou au bureau</li>
+            <li>Relations de confiance avec les clients et résolution des problématiques soulevées</li>
+          </ul>
+          <div class="xp-tags">
+            <span class="xp-tag">Audit</span>
+            <span class="xp-tag">Supervision</span>
+            <span class="xp-tag">Multi-secteurs</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FORMATIONS ===== -->
+<section class="formations" id="formations" data-screen-label="04 Formations">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-number">03 — Formations</div>
+      <div>
+        <h2 class="section-title">Formations.</h2>
+      </div>
+    </div>
+
+    <div class="formations-list reveal-stagger reveal">
+      <div class="formation-row">
+        <div class="formation-year">2014</div>
+        <div class="formation-body">
+          <h3>Titre de CPA auditrice, CA</h3>
+          <p>Obtention du titre comptable professionnel</p>
+        </div>
+        <div class="formation-kind">Titre professionnel</div>
+      </div>
+
+      <div class="formation-row">
+        <div class="formation-year">2012</div>
+        <div class="formation-body">
+          <h3>D.E.S.S. en comptabilité publique</h3>
+          <p>HEC Montréal · Mai 2011 — Septembre 2012</p>
+        </div>
+        <div class="formation-kind">2ᵉ cycle</div>
+      </div>
+
+      <div class="formation-row">
+        <div class="formation-year">2012</div>
+        <div class="formation-body">
+          <h3>Baccalauréat en Administration des Affaires</h3>
+          <p>HEC Montréal · Janvier 2008 — Avril 2012</p>
+        </div>
+        <div class="formation-kind">Baccalauréat</div>
+      </div>
+
+      <div class="formation-row">
+        <div class="formation-year">2009</div>
+        <div class="formation-body">
+          <h3>Erasmus Universiteit Rotterdam</h3>
+          <p>Programme d'échange étudiant international — session d'automne</p>
+        </div>
+        <div class="formation-kind">Échange international</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXTRAS ===== -->
+<section class="extras" id="extras" data-screen-label="05 Compétences">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-number">04 — Compétences</div>
+      <div>
+        <h2 class="section-title">Compétences.</h2>
+      </div>
+    </div>
+
+    <div class="extras-grid reveal" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
+      <div class="extras-block">
+        <div class="skill-group">
+          <div class="skill-group-label">Expertises</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Audit</span>
+            <span class="skill-pill">Contrôle de gestion</span>
+            <span class="skill-pill">Budget &amp; prévisions</span>
+            <span class="skill-pill">États financiers</span>
+            <span class="skill-pill">Trésorerie</span>
+            <span class="skill-pill">Contrôles internes</span>
+            <span class="skill-pill">Intégration de l'IA</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Logiciels</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Microsoft Office</span>
+            <span class="skill-pill">QuickBooks</span>
+            <span class="skill-pill">Sage 300</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Langues</div>
+          <div class="lang-row">
+            <div class="lang-name">Français</div>
+            <div class="lang-level">Langue maternelle</div>
+          </div>
+          <div class="lang-row">
+            <div class="lang-name">Anglais</div>
+            <div class="lang-level">Courant</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PERSONNEL ===== -->
+<section class="personnel" id="personnel" data-screen-label="06 Personnel">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-number">05 — Personnel</div>
+      <div>
+        <h2 class="section-title">Au-delà du <em>bureau</em>.</h2>
+        <p class="section-lede">Ce qui me garde curieuse, en mouvement et concentrée en dehors du travail.</p>
+      </div>
+    </div>
+
+    <div class="hobbies-grid reveal-stagger reveal">
+      <div class="hobby"><span class="hobby-num">01</span><span class="hobby-name">Entraînement physique</span></div>
+      <div class="hobby"><span class="hobby-num">02</span><span class="hobby-name">Yoga</span></div>
+      <div class="hobby"><span class="hobby-num">03</span><span class="hobby-name">Pilates</span></div>
+      <div class="hobby"><span class="hobby-num">04</span><span class="hobby-name">Intérêt envers l'IA</span></div>
+      <div class="hobby"><span class="hobby-num">05</span><span class="hobby-name">Nutrition</span></div>
+      <div class="hobby"><span class="hobby-num">06</span><span class="hobby-name">Organisation d'espace</span></div>
+      <div class="hobby"><span class="hobby-num">07</span><span class="hobby-name">Plein air</span></div>
+      <div class="hobby"><span class="hobby-num">08</span><span class="hobby-name">Pleine conscience</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="contact" id="contact" data-screen-label="06 Contact">
+  <div class="container contact-inner">
+    <div class="reveal">
+      <h2>Contactez-<em>moi</em>.</h2>
+    </div>
+    <div class="contact-links reveal">
+      <a class="contact-link" href="mailto:kim.lussier.nivis@gmail.com?subject=Je%20suis%20int%C3%A9ress%C3%A9%20par%20votre%20candidature">
+        <div class="contact-link-body">
+          <div class="kind">Courriel</div>
+          <div class="contact-link-val">
+            <svg class="contact-icon" width="18" height="14" viewBox="0 0 18 14" fill="none">
+              <rect x="0.5" y="0.5" width="17" height="13" rx="1.5" stroke="currentColor"/>
+              <path d="M1 2l8 6 8-6" stroke="currentColor" stroke-linejoin="round" fill="none"/>
+            </svg>
+            kim.lussier.nivis@gmail.com
+          </div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+      <a class="contact-link" href="tel:+15149955179">
+        <div class="contact-link-body">
+          <div class="kind">Téléphone</div>
+          <div class="contact-link-val">
+            <svg class="contact-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 1.5h3l1.5 4-2 1.2a9 9 0 0 0 3.8 3.8l1.2-2 4 1.5v3a1 1 0 0 1-1 1A12 12 0 0 1 2 2.5a1 1 0 0 1 1-1z" fill="currentColor"/>
+            </svg>
+            514 · 995 · 5179
+          </div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+      <a class="contact-link" href="https://www.linkedin.com/in/kim-lussier-nivischiuk-cpa-abba0abb" target="_blank" rel="noopener noreferrer">
+        <div class="contact-link-body">
+          <div class="kind">LinkedIn</div>
+          <div class="contact-link-val">
+            <svg class="contact-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M3.58 2A1.58 1.58 0 1 1 2 3.58 1.58 1.58 0 0 1 3.58 2zM2.22 5.33h2.72V14H2.22zM6.67 5.33h2.6v1.18h.04a2.85 2.85 0 0 1 2.57-1.4c2.74 0 3.25 1.8 3.25 4.15V14h-2.72V9.8c0-1 0-2.28-1.39-2.28s-1.6 1.08-1.6 2.2V14H6.67z"/>
+            </svg>
+            Connectons-nous
+          </div>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+      <div class="contact-static">
+        <div class="kind">Localisation</div>
+        <div class="contact-static-val">
+          <svg width="14" height="18" viewBox="0 0 14 18" fill="none" style="flex:0 0 auto;">
+            <path d="M7 0C3.13 0 0 3.13 0 7c0 4.97 7 11 7 11s7-6.03 7-11c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 7 4.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/>
+          </svg>
+          Montréal et les environs
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">© 2026 Kim Lussier-Nivischiuk · CPA</div>
+</section>
+
+<!-- ===== DOTS NAV ===== -->
+<nav class="dots-nav" id="dotsNav">
+  <a href="#top" data-label="Accueil" data-section="top"></a>
+  <a href="#profil" data-label="Profil" data-section="profil"></a>
+  <a href="#experience" data-label="Expérience" data-section="experience"></a>
+  <a href="#formations" data-label="Formations" data-section="formations"></a>
+  <a href="#extras" data-label="Compétences" data-section="extras"></a>
+  <a href="#personnel" data-label="Personnel" data-section="personnel"></a>
+  <a href="#contact" data-label="Contact" data-section="contact"></a>
+</nav>
+
+<!-- ===== TWEAKS PANEL ===== -->
+<div class="tweaks" id="tweaks">
+  <h4>Tweaks <button class="close" id="tweaksClose">×</button></h4>
+
+  <div class="tweak-row">
+    <label>Palette</label>
+    <div class="tweak-swatches" id="paletteSwatches">
+      <div class="tweak-swatch" data-val="sage" style="background:linear-gradient(135deg,#d9e3d3,#9fb89a)" title="Sage"></div>
+      <div class="tweak-swatch" data-val="rose" style="background:linear-gradient(135deg,#edd4cc,#d9a49a)" title="Rose"></div>
+      <div class="tweak-swatch" data-val="butter" style="background:linear-gradient(135deg,#ead7a4,#dcc07b)" title="Butter"></div>
+      <div class="tweak-swatch" data-val="lavender" style="background:linear-gradient(135deg,#d6cde0,#b5a5c6)" title="Lavender"></div>
+      <div class="tweak-swatch" data-val="sky" style="background:linear-gradient(135deg,#c7d9df,#9ab8c2)" title="Sky"></div>
+    </div>
+  </div>
+
+  <div class="tweak-row">
+    <label>Typographie</label>
+    <div class="tweak-btns" id="displayBtns">
+      <button class="tweak-btn" data-val="fraunces">Fraunces</button>
+      <button class="tweak-btn" data-val="instrument">Instrument</button>
+    </div>
+  </div>
+
+  <div class="tweak-row">
+    <label>Portrait</label>
+    <div class="tweak-btns" id="portraitBtns">
+      <button class="tweak-btn" data-val="duotone">Duotone</button>
+      <button class="tweak-btn" data-val="color">Couleur</button>
+      <button class="tweak-btn" data-val="bw">N&amp;B</button>
+    </div>
+  </div>
+
+  <div class="tweak-row">
+    <label>Densité</label>
+    <div class="tweak-btns" id="densityBtns">
+      <button class="tweak-btn" data-val="compact">Compact</button>
+      <button class="tweak-btn" data-val="comfortable">Confort</button>
+      <button class="tweak-btn" data-val="spacious">Espacé</button>
+    </div>
+  </div>
+
+  <div class="tweak-row">
+    <label>Navigation latérale</label>
+    <div class="tweak-btns" id="navBtns">
+      <button class="tweak-btn" data-val="true">Afficher</button>
+      <button class="tweak-btn" data-val="false">Masquer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ Apply tweaks ============ */
+const body = document.body;
+function applyTweaks(t) {
+  body.dataset.palette = t.palette;
+  body.dataset.display = t.displayFont;
+  body.dataset.density = t.density;
+  body.dataset.portrait = t.portraitStyle;
+  document.getElementById('dotsNav').classList.toggle('hidden', !t.showFloatingNav);
+
+  // sync UI
+  document.querySelectorAll('#paletteSwatches .tweak-swatch').forEach(s => {
+    s.classList.toggle('active', s.dataset.val === t.palette);
+  });
+  document.querySelectorAll('#displayBtns .tweak-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.val === t.displayFont);
+  });
+  document.querySelectorAll('#portraitBtns .tweak-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.val === t.portraitStyle);
+  });
+  document.querySelectorAll('#densityBtns .tweak-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.val === t.density);
+  });
+  document.querySelectorAll('#navBtns .tweak-btn').forEach(b => {
+    b.classList.toggle('active', String(b.dataset.val) === String(t.showFloatingNav));
+  });
+}
+const current = { ...TWEAK_DEFAULTS };
+applyTweaks(current);
+
+function setTweak(key, val) {
+  current[key] = val;
+  applyTweaks(current);
+  try {
+    window.parent.postMessage({type: '__edit_mode_set_keys', edits: { [key]: val }}, '*');
+  } catch (e) {}
+}
+
+document.getElementById('paletteSwatches').addEventListener('click', (e) => {
+  const s = e.target.closest('.tweak-swatch');
+  if (s) setTweak('palette', s.dataset.val);
+});
+document.getElementById('displayBtns').addEventListener('click', (e) => {
+  const b = e.target.closest('.tweak-btn');
+  if (b) setTweak('displayFont', b.dataset.val);
+});
+document.getElementById('portraitBtns').addEventListener('click', (e) => {
+  const b = e.target.closest('.tweak-btn');
+  if (b) setTweak('portraitStyle', b.dataset.val);
+});
+document.getElementById('densityBtns').addEventListener('click', (e) => {
+  const b = e.target.closest('.tweak-btn');
+  if (b) setTweak('density', b.dataset.val);
+});
+document.getElementById('navBtns').addEventListener('click', (e) => {
+  const b = e.target.closest('.tweak-btn');
+  if (b) setTweak('showFloatingNav', b.dataset.val === 'true');
+});
+
+/* ============ Edit mode bridge ============ */
+window.addEventListener('message', (ev) => {
+  if (!ev.data || typeof ev.data !== 'object') return;
+  if (ev.data.type === '__activate_edit_mode') document.getElementById('tweaks').classList.add('open');
+  if (ev.data.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('open');
+});
+document.getElementById('tweaksClose').addEventListener('click', () => {
+  document.getElementById('tweaks').classList.remove('open');
+});
+try { window.parent.postMessage({type: '__edit_mode_available'}, '*'); } catch(e) {}
+
+/* ============ Scroll reveals ============ */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px' });
+document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
+
+/* ============ Active-section tracking ============ */
+const sections = ['top','profil','experience','formations','extras','personnel','contact'];
+const sectionEls = sections.map(id => document.getElementById(id));
+const topLinks = document.querySelectorAll('.topnav a');
+const dotLinks = document.querySelectorAll('.dots-nav a');
+
+function updateActive() {
+  let active = 'top';
+  const mid = window.scrollY + window.innerHeight * 0.35;
+  for (const el of sectionEls) {
+    if (!el) continue;
+    if (el.offsetTop <= mid) active = el.id;
+  }
+  // Force contact when near bottom of page
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 80) {
+    active = 'contact';
+  }
+  topLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active));
+  dotLinks.forEach(a => a.classList.toggle('active', a.dataset.section === active));
+}
+window.addEventListener('scroll', updateActive, { passive: true });
+updateActive();
+</script>
+
+</body>
+</html>
